@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>I'm Sorry 💙</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Pacifico&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+font-family: ‘Nunito’, sans-serif;
+background: linear-gradient(160deg, #cce8f7 0%, #dff2e0 100%);
+min-height: 100vh;
+overflow: hidden;
+}
+
+/* ===== PAGES ===== */
+.page {
+display: none; flex-direction: column;
+align-items: center; justify-content: flex-end;
+width: 100vw; min-height: 100vh;
+position: absolute; top: 0; left: 0;
+opacity: 0; transition: opacity 0.45s ease;
+}
+.page.active { display: flex; opacity: 1; }
+
+/* ===== BG ===== */
+.sky {
+position: fixed; top: 0; left: 0; right: 0; height: 62vh;
+background: linear-gradient(180deg, #87ceeb 0%, #c8e8f8 65%, #d8f0e0 100%);
+z-index: 0;
+}
+.ground {
+position: fixed; bottom: 0; left: 0; right: 0; height: 40vh;
+background: linear-gradient(180deg, #78c86a 0%, #5aaa52 100%);
+border-radius: 60% 60% 0 0 / 20% 20% 0 0;
+z-index: 0;
+}
+.ground::before {
+content:’’; position:absolute; top:-14px; left:0; right:0;
+height:28px; background:#9ad888; border-radius:50%;
+}
+.sun {
+position:fixed; top:28px; right:60px; z-index:1;
+width:64px; height:64px;
+background:radial-gradient(circle at 35% 35%, #fff7a0, #ffd700 50%, #ffb300);
+border-radius:50%;
+box-shadow:0 0 0 12px rgba(255,215,0,0.15),0 0 0 24px rgba(255,215,0,0.08);
+animation:sunPulse 4s ease-in-out infinite;
+}
+@keyframes sunPulse {
+0%,100%{box-shadow:0 0 0 12px rgba(255,215,0,0.15),0 0 0 24px rgba(255,215,0,0.08);}
+50%{box-shadow:0 0 0 20px rgba(255,215,0,0.22),0 0 0 38px rgba(255,215,0,0.1);}
+}
+.cloud{position:fixed;z-index:1;filter:drop-shadow(0 5px 8px rgba(100,160,220,0.18));}
+.c1{top:9%;left:6%;animation:drift 20s ease-in-out infinite;}
+.c2{top:17%;right:10%;animation:drift 26s ease-in-out infinite reverse;}
+.c3{top:6%;left:44%;animation:drift 22s ease-in-out infinite 3s;}
+@keyframes drift{0%,100%{transform:translateX(0)}50%{transform:translateX(25px)}}
+.flower{position:fixed;font-size:1.7rem;bottom:28px;z-index:1;}
+.f1{left:4%}.f2{left:13%}.f3{right:13%}.f4{right:4%}
+.f5{left:24%;bottom:22px;font-size:1.2rem}.f6{right:24%;bottom:22px;font-size:1.2rem}
+
+/* ===== SCENE / HOUSE ===== */
+.scene {
+position:relative; z-index:2;
+width:420px; max-width:96vw;
+display:flex; flex-direction:column;
+align-items:center; padding-bottom:55px;
+}
+.house-3d {
+position:relative; width:240px; height:215px; margin-bottom:-8px;
+filter:drop-shadow(0 14px 24px rgba(0,0,0,0.2));
+}
+.chimney{
+position:absolute; bottom:184px; right:60px;
+width:22px; height:36px;
+background:linear-gradient(90deg,#b05540,#d0705a 50%,#a04030);
+border-radius:3px 3px 0 0;
+}
+.chimney::after{
+content:’’;position:absolute;top:-6px;left:-3px;right:-3px;height:9px;
+background:#c06050;border-radius:3px;
+}
+.roof-wrap{position:absolute;bottom:118px;left:4px;width:232px;}
+.roof-front{width:0;height:0;border-left:116px solid transparent;border-right:116px solid transparent;border-bottom:90px solid #d96b4a;}
+.roof-side{position:absolute;right:-20px;bottom:0;width:0;height:0;border-left:20px solid #b05030;border-top:90px solid transparent;}
+.wall-front{
+position:absolute;bottom:0;left:16px;width:190px;height:128px;
+background:linear-gradient(160deg,#f8d888 0%,#f0c060 60%,#e8b040 100%);
+border-radius:3px 3px 0 0;
+box-shadow:inset -6px 0 14px rgba(0,0,0,0.1);
+}
+.wall-side{
+position:absolute;bottom:0;right:0;width:30px;height:128px;
+background:linear-gradient(90deg,#d4a030,#b88020);
+border-radius:0 3px 0 0;
+transform:skewY(-8deg);transform-origin:bottom left;
+}
+.win{
+position:absolute;width:34px;height:32px;
+background:linear-gradient(135deg,#c8ecff,#88c8f0 60%,#60a8d8);
+border:3px solid #7aaa99;border-radius:4px;top:22px;
+box-shadow:inset 2px 2px 5px rgba(255,255,255,0.55),inset -2px -2px 4px rgba(0,0,0,0.1);
+}
+.win::before{content:’’;position:absolute;top:0;bottom:0;left:50%;width:2px;background:rgba(255,255,255,0.65);}
+.win::after{content:’’;position:absolute;left:0;right:0;top:50%;height:2px;background:rgba(255,255,255,0.65);}
+.wg{position:absolute;top:3px;left:3px;width:8px;height:8px;background:rgba(255,255,255,0.9);border-radius:2px;}
+.win-l{left:18px;} .win-r{right:28px;}
+.door-3d{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:46px;height:72px;perspective:400px;}
+.door-panel{
+width:100%;height:100%;
+background:linear-gradient(160deg,#c07040,#9a5028 60%,#7a3818);
+border-radius:6px 6px 0 0;
+box-shadow:inset -4px 0 8px rgba(0,0,0,0.28),inset 2px 0 4px rgba(255,255,255,0.08);
+transform-origin:left center;position:relative;
+}
+.door-panel.open{animation:openDoor 0.7s cubic-bezier(.4,0,.2,1) forwards;}
+@keyframes openDoor{to{transform:perspective(400px) rotateY(-65deg);}}
+.knob{
+position:absolute;right:8px;top:52%;width:8px;height:8px;
+background:radial-gradient(circle at 35% 35%,#ffe88a,#d4a020);
+border-radius:50%;box-shadow:0 1px 3px rgba(0,0,0,0.35);
+}
+.door-frame{position:absolute;inset:-3px -3px 0 -3px;border:3px solid #6a3818;border-bottom:none;border-radius:6px 6px 0 0;pointer-events:none;}
+
+/* ===== CHARACTER – fully opaque, boy in 20s ===== */
+.character{
+position:absolute;bottom:2px;left:50%;transform:translateX(-50%);
+width:60px;
+/* NO opacity fade, NO transition on opacity so it never goes translucent */
+filter:drop-shadow(2px 5px 6px rgba(0,0,0,0.28));
+}
+/* Walk-out: stays solid the whole time */
+.character.walk-out{animation:walkOut 1.2s cubic-bezier(.4,0,.6,1) forwards;}
+@keyframes walkOut{
+0%  {bottom:5px; left:50%; transform:translateX(-50%) scaleX(1);}
+100%{bottom:5px; left:50%; transform:translateX(-162%) scaleX(1);}
+}
+
+/* ===== BUBBLE ===== */
+.bubble{
+background:white;border-radius:20px;padding:10px 18px;
+font-size:1rem;font-weight:800;color:#3a3a5c;
+box-shadow:0 6px 18px rgba(0,0,0,0.12);
+white-space:nowrap;opacity:0;
+transform:scale(0.6) translateY(10px);
+transition:opacity 0.4s 1s, transform 0.4s 1s;
+margin-bottom:10px;position:relative;z-index:10;
+}
+.bubble::after{
+content:’’;position:absolute;bottom:-11px;left:50%;transform:translateX(-50%);
+border-left:10px solid transparent;border-right:10px solid transparent;border-top:13px solid white;
+}
+.bubble.show{opacity:1;transform:scale(1) translateY(0);}
+
+/* ===== CARD ===== */
+.card{
+background:rgba(255,255,255,0.74);backdrop-filter:blur(14px);
+border-radius:28px;padding:34px 38px 28px;text-align:center;
+box-shadow:0 10px 40px rgba(100,160,220,0.17),0 1px 0 rgba(255,255,255,0.9) inset;
+max-width:370px;width:92vw;
+animation:fadeUp 0.5s ease both;
+margin-bottom:80px;
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+.card h1{font-family:‘Pacifico’,cursive;font-size:1.9rem;color:#3a3a5c;margin-bottom:8px;}
+.card p{color:#6a6a88;font-size:1rem;line-height:1.55;margin-bottom:22px;}
+.char-card{
+width:100px;margin-bottom:14px;
+filter:drop-shadow(2px 7px 8px rgba(0,0,0,0.18));
+animation:bounceIn 0.65s cubic-bezier(.36,.07,.19,.97) both;
+}
+@keyframes bounceIn{
+0%{transform:scale(0.3) translateY(40px);opacity:0;}
+60%{transform:scale(1.12) translateY(-10px);opacity:1;}
+80%{transform:scale(0.96) translateY(4px);}
+100%{transform:scale(1) translateY(0);}
+}
+
+/* ===== BUTTONS ===== */
+.btn{
+display:inline-block;padding:13px 34px;border-radius:50px;
+font-family:‘Nunito’,sans-serif;font-size:1rem;font-weight:800;
+border:none;cursor:pointer;letter-spacing:0.4px;user-select:none;
+transition:transform 0.18s,box-shadow 0.18s;
+}
+.btn-next{
+background:linear-gradient(135deg,#4a90d9,#7abfff);color:white;
+box-shadow:0 4px 18px rgba(74,144,217,0.38);
+}
+.btn-next:hover{transform:translateY(-2px) scale(1.04);}
+.btn-yes{
+background:linear-gradient(135deg,#5ec47a,#a8e6b0);color:white;
+box-shadow:0 4px 18px rgba(94,196,122,0.38);
+margin-right:10px;
+}
+.btn-yes:hover{transform:translateY(-2px) scale(1.05);}
+
+/* ONE floating No button */
+#noBtn{
+background:linear-gradient(135deg,#f08080,#f5aaaa);color:white;
+box-shadow:0 4px 18px rgba(240,128,128,0.35);
+position:fixed;z-index:300;
+transition:top 0.1s ease, left 0.1s ease;
+display:none;
+}
+
+/* ===== TOAST / FLASH MESSAGE ===== */
+#toast{
+position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(0.8);
+background:rgba(30,30,50,0.93);color:white;
+border-radius:20px;padding:22px 32px;text-align:center;
+font-size:1.1rem;font-weight:800;line-height:1.5;
+box-shadow:0 8px 32px rgba(0,0,0,0.3);
+z-index:500;pointer-events:none;
+opacity:0;transition:opacity 0.25s,transform 0.25s;
+max-width:88vw;
+}
+#toast.show{opacity:1;transform:translate(-50%,-50%) scale(1);}
+#toast .big{font-size:1.5rem;display:block;margin-bottom:6px;}
+
+/* ===== THANK YOU ===== */
+.ty-emoji{font-size:2.8rem;margin-bottom:4px;animation:spinIn 0.7s ease 0.3s both;}
+@keyframes spinIn{from{transform:rotate(-30deg) scale(0.4);opacity:0}to{transform:rotate(0) scale(1);opacity:1}}
+
+/* ===== CONFETTI ===== */
+.cc{position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:999;overflow:hidden;}
+.cp{position:absolute;opacity:0;animation:fall 1.5s ease forwards;}
+@keyframes fall{0%{opacity:1;transform:translateY(-20px) rotate(0)}100%{opacity:0;transform:translateY(85vh) rotate(720deg)}}
+</style>
+
+</head>
+<body>
+
+<div class="sky"></div>
+<div class="ground"></div>
+<div class="sun"></div>
+
+<!-- Clouds -->
+
+<svg class="cloud c1" width="130" height="65" viewBox="0 0 130 65">
+  <ellipse cx="65" cy="46" rx="58" ry="21" fill="white"/>
+  <ellipse cx="38" cy="36" rx="28" ry="25" fill="white"/>
+  <ellipse cx="80" cy="32" rx="32" ry="27" fill="white"/>
+  <ellipse cx="56" cy="28" rx="22" ry="19" fill="white"/>
+</svg>
+<svg class="cloud c2" width="100" height="54" viewBox="0 0 100 54">
+  <ellipse cx="50" cy="38" rx="42" ry="17" fill="white"/>
+  <ellipse cx="30" cy="28" rx="22" ry="20" fill="white"/>
+  <ellipse cx="62" cy="24" rx="24" ry="22" fill="white"/>
+</svg>
+<svg class="cloud c3" width="80" height="44" viewBox="0 0 80 44">
+  <ellipse cx="40" cy="30" rx="33" ry="14" fill="white"/>
+  <ellipse cx="24" cy="22" rx="18" ry="17" fill="white"/>
+  <ellipse cx="50" cy="18" rx="20" ry="18" fill="white"/>
+</svg>
+
+<div class="flower f1">🌸</div><div class="flower f2">🌼</div>
+<div class="flower f3">🌼</div><div class="flower f4">🌸</div>
+<div class="flower f5">🌷</div><div class="flower f6">🌷</div>
+
+<!-- Toast flash message -->
+
+<div id="toast">
+  <span class="big">💀 I stayed up all night making this…</span>
+  and you said <strong>NO</strong>?!
+</div>
+
+<!-- ONE floating No button -->
+
+<button class="btn" id="noBtn">❌ No</button>
+
+<!-- ====== PAGE 1: SORRY ====== -->
+
+<div class="page active" id="page1">
+  <div class="scene">
+    <div class="bubble" id="bubble1">😔 I'm really sorry...</div>
+    <div class="house-3d">
+      <div class="chimney"></div>
+      <div class="roof-wrap">
+        <div class="roof-front"></div>
+        <div class="roof-side"></div>
+      </div>
+      <div class="wall-front">
+        <div class="win win-l"><div class="wg"></div></div>
+        <div class="win win-r"><div class="wg"></div></div>
+        <div class="door-3d">
+          <div class="door-panel" id="door1"><div class="knob"></div></div>
+          <div class="door-frame"></div>
+        </div>
+      </div>
+      <div class="wall-side"></div>
+
+```
+  <!-- CHARACTER on page 1 – boy in 20s, stays solid -->
+  <div class="character" id="char1">
+    <svg viewBox="0 0 60 112" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Ground shadow -->
+      <ellipse cx="30" cy="110" rx="18" ry="4" fill="rgba(0,0,0,0.18)"/>
+      <!-- Shoes -->
+      <ellipse cx="20" cy="103" rx="9.5" ry="5" fill="#1a1a2e"/>
+      <ellipse cx="40" cy="103" rx="9.5" ry="5" fill="#1a1a2e"/>
+      <ellipse cx="18" cy="101" rx="6" ry="2.5" fill="#2e2e50" opacity="0.6"/>
+      <!-- Jeans legs -->
+      <rect x="14" y="78" width="13" height="26" rx="6" fill="#3060a0"/>
+      <rect x="33" y="78" width="13" height="26" rx="6" fill="#3060a0"/>
+      <!-- Jeans highlight -->
+      <rect x="14" y="78" width="5" height="26" rx="3" fill="#4878c0" opacity="0.4"/>
+      <rect x="33" y="78" width="5" height="26" rx="3" fill="#4878c0" opacity="0.4"/>
+      <!-- Belt -->
+      <rect x="12" y="76" width="36" height="5" rx="2" fill="#5c3d1e"/>
+      <rect x="26" y="76" width="8" height="5" rx="1" fill="#c8a050"/>
+      <!-- Body – hoodie style, boy 20s -->
+      <rect x="11" y="48" width="38" height="32" rx="10" fill="#4a90d9"/>
+      <!-- Hoodie shading -->
+      <rect x="11" y="48" width="11" height="32" rx="8" fill="#5aa0e9" opacity="0.4"/>
+      <rect x="38" y="48" width="11" height="32" rx="8" fill="#2a70b9" opacity="0.45"/>
+      <!-- Hood drawstring -->
+      <path d="M24 48 L28 55 L32 48" fill="#3a78c0"/>
+      <!-- Pocket -->
+      <rect x="20" y="66" width="20" height="10" rx="4" fill="#3a78c0" opacity="0.6"/>
+      <!-- Arms -->
+      <rect x="0" y="53" width="14" height="9" rx="4.5" fill="#4a90d9" transform="rotate(-12 0 53)"/>
+      <rect x="46" y="53" width="14" height="9" rx="4.5" fill="#4a90d9" transform="rotate(12 60 53)"/>
+      <!-- Hands -->
+      <circle cx="6" cy="68" r="7" fill="#fcd5b0"/>
+      <circle cx="54" cy="68" r="7" fill="#fcd5b0"/>
+      <ellipse cx="5" cy="66" rx="4" ry="2.5" fill="#e8c09a" opacity="0.4"/>
+      <!-- Neck -->
+      <rect x="24" y="40" width="12" height="10" rx="5" fill="#fcd5b0"/>
+      <!-- Head – slim, angular for 20s look -->
+      <ellipse cx="30" cy="28" rx="17" ry="18" fill="#fcd5b0"/>
+      <!-- Face side shading -->
+      <ellipse cx="23" cy="26" rx="6" ry="10" fill="#ffe0c0" opacity="0.3"/>
+      <!-- Short styled hair – undercut fade look -->
+      <path d="M13 22 Q15 5 30 6 Q45 5 47 22 Q43 9 30 10 Q17 9 13 22Z" fill="#2c1a0a"/>
+      <!-- Fade sides (lighter) -->
+      <ellipse cx="13.5" cy="27" rx="4" ry="7" fill="#2c1a0a"/>
+      <ellipse cx="46.5" cy="27" rx="4" ry="7" fill="#2c1a0a"/>
+      <!-- Hair top texture -->
+      <path d="M19 8 Q28 5 36 9" stroke="#5a3a18" stroke-width="2.5" stroke-linecap="round" fill="none" opacity="0.5"/>
+      <path d="M22 6 Q29 4 37 7" stroke="#5a3a18" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.35"/>
+      <!-- Ears -->
+      <ellipse cx="13" cy="30" rx="4.5" ry="5.5" fill="#fcd5b0"/>
+      <ellipse cx="47" cy="30" rx="4.5" ry="5.5" fill="#fcd5b0"/>
+      <ellipse cx="13" cy="30" rx="2.5" ry="3" fill="#e8c0a0"/>
+      <!-- Stubble / jawline hint for 20s -->
+      <path d="M17 40 Q30 46 43 40" stroke="#c8a898" stroke-width="1" stroke-linecap="round" fill="none" opacity="0.5"/>
+      <!-- Eyes – sad downcast -->
+      <ellipse cx="22" cy="29" rx="4.5" ry="4" fill="white"/>
+      <ellipse cx="38" cy="29" rx="4.5" ry="4" fill="white"/>
+      <circle cx="22" cy="30" r="2.5" fill="#3a2a1a"/>
+      <circle cx="38" cy="30" r="2.5" fill="#3a2a1a"/>
+      <circle cx="23" cy="29" r="1" fill="white"/>
+      <!-- Sad eyebrows angled down in middle -->
+      <path d="M17 23 Q22 20.5 27 23" stroke="#2c1a0a" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+      <path d="M33 23 Q38 20.5 43 23" stroke="#2c1a0a" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+      <!-- Sad mouth -->
+      <path d="M22 39 Q30 35 38 39" stroke="#c09070" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+      <!-- Tear -->
+      <path d="M20 34 Q18.5 37.5 20 40 Q21.5 37.5 20 34Z" fill="#80c8f0"/>
+      <!-- Cheek blush -->
+      <ellipse cx="15" cy="35" rx="4.5" ry="3" fill="#f4a0a0" opacity="0.4"/>
+      <ellipse cx="45" cy="35" rx="4.5" ry="3" fill="#f4a0a0" opacity="0.4"/>
+    </svg>
+  </div>
+</div>
+
+<div style="margin-top:28px;">
+  <button class="btn btn-next" id="nextBtn">Next →</button>
+</div>
+```
+
+  </div>
+</div>
+
+<!-- ====== PAGE 2: ACCEPT? ====== -->
+
+<div class="page" id="page2">
+  <div class="card">
+    <!-- Pleading character -->
+    <svg class="char-card" viewBox="0 0 60 112" fill="none">
+      <ellipse cx="30" cy="110" rx="18" ry="4" fill="rgba(0,0,0,0.12)"/>
+      <ellipse cx="20" cy="103" rx="9.5" ry="5" fill="#1a1a2e"/>
+      <ellipse cx="40" cy="103" rx="9.5" ry="5" fill="#1a1a2e"/>
+      <rect x="14" y="78" width="13" height="26" rx="6" fill="#3060a0"/>
+      <rect x="33" y="78" width="13" height="26" rx="6" fill="#3060a0"/>
+      <rect x="14" y="78" width="5" height="26" rx="3" fill="#4878c0" opacity="0.4"/>
+      <rect x="33" y="78" width="5" height="26" rx="3" fill="#4878c0" opacity="0.4"/>
+      <rect x="12" y="76" width="36" height="5" rx="2" fill="#5c3d1e"/>
+      <rect x="26" y="76" width="8" height="5" rx="1" fill="#c8a050"/>
+      <rect x="11" y="48" width="38" height="32" rx="10" fill="#4a90d9"/>
+      <rect x="11" y="48" width="11" height="32" rx="8" fill="#5aa0e9" opacity="0.4"/>
+      <rect x="38" y="48" width="11" height="32" rx="8" fill="#2a70b9" opacity="0.4"/>
+      <path d="M24 48 L28 55 L32 48" fill="#3a78c0"/>
+      <rect x="20" y="66" width="20" height="10" rx="4" fill="#3a78c0" opacity="0.6"/>
+      <!-- Arms raised / pleading -->
+      <rect x="-2" y="46" width="15" height="9" rx="4.5" fill="#4a90d9" transform="rotate(-50 -2 46)"/>
+      <rect x="47" y="46" width="15" height="9" rx="4.5" fill="#4a90d9" transform="rotate(50 62 46)"/>
+      <circle cx="4" cy="58" r="7" fill="#fcd5b0"/>
+      <circle cx="56" cy="58" r="7" fill="#fcd5b0"/>
+      <rect x="24" y="40" width="12" height="10" rx="5" fill="#fcd5b0"/>
+      <ellipse cx="30" cy="28" rx="17" ry="18" fill="#fcd5b0"/>
+      <ellipse cx="23" cy="26" rx="6" ry="10" fill="#ffe0c0" opacity="0.28"/>
+      <path d="M13 22 Q15 5 30 6 Q45 5 47 22 Q43 9 30 10 Q17 9 13 22Z" fill="#2c1a0a"/>
+      <ellipse cx="13.5" cy="27" rx="4" ry="7" fill="#2c1a0a"/>
+      <ellipse cx="46.5" cy="27" rx="4" ry="7" fill="#2c1a0a"/>
+      <path d="M19 8 Q28 5 36 9" stroke="#5a3a18" stroke-width="2.5" stroke-linecap="round" fill="none" opacity="0.45"/>
+      <ellipse cx="13" cy="30" rx="4.5" ry="5.5" fill="#fcd5b0"/>
+      <ellipse cx="47" cy="30" rx="4.5" ry="5.5" fill="#fcd5b0"/>
+      <!-- Big puppy eyes -->
+      <ellipse cx="22" cy="29" rx="5.5" ry="5.5" fill="white"/>
+      <ellipse cx="38" cy="29" rx="5.5" ry="5.5" fill="white"/>
+      <circle cx="22" cy="30" r="3.5" fill="#3366cc"/>
+      <circle cx="38" cy="30" r="3.5" fill="#3366cc"/>
+      <circle cx="22" cy="29" r="1.5" fill="#111"/>
+      <circle cx="38" cy="29" r="1.5" fill="#111"/>
+      <circle cx="24" cy="27" r="1.2" fill="white"/>
+      <circle cx="40" cy="27" r="1.2" fill="white"/>
+      <path d="M17 22 Q22 19 27 22" stroke="#2c1a0a" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+      <path d="M33 22 Q38 19 43 22" stroke="#2c1a0a" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+      <path d="M22 39 Q30 44 38 39" stroke="#c09070" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+      <ellipse cx="15" cy="35" rx="4.5" ry="3" fill="#f4a0a0" opacity="0.5"/>
+      <ellipse cx="45" cy="35" rx="4.5" ry="3" fill="#f4a0a0" opacity="0.5"/>
+    </svg>
+
+```
+<h1>Apology accepted?</h1>
+<p>He's really, truly sorry 🥺<br>What do you say?</p>
+<div style="display:flex;align-items:center;justify-content:center;gap:10px;">
+  <button class="btn btn-yes" id="yesBtn">✅ Yes!</button>
+  <!-- No button is the FLOATING one, just a placeholder label so layout looks right -->
+  <span style="display:inline-block;width:90px;height:48px;"></span>
+</div>
+```
+
+  </div>
+</div>
+
+<!-- ====== PAGE 3: THANK YOU ====== -->
+
+<div class="page" id="page3">
+  <div class="card">
+    <div class="ty-emoji">😊</div>
+    <!-- Happy character -->
+    <svg class="char-card" viewBox="0 0 60 112" fill="none">
+      <ellipse cx="30" cy="110" rx="18" ry="4" fill="rgba(0,0,0,0.12)"/>
+      <ellipse cx="20" cy="103" rx="9.5" ry="5" fill="#1a1a2e"/>
+      <ellipse cx="40" cy="103" rx="9.5" ry="5" fill="#1a1a2e"/>
+      <rect x="14" y="78" width="13" height="26" rx="6" fill="#2a6a3a"/>
+      <rect x="33" y="78" width="13" height="26" rx="6" fill="#2a6a3a"/>
+      <rect x="12" y="76" width="36" height="5" rx="2" fill="#3a2a10"/>
+      <rect x="26" y="76" width="8" height="5" rx="1" fill="#c8a050"/>
+      <rect x="11" y="48" width="38" height="32" rx="10" fill="#5ec47a"/>
+      <rect x="11" y="48" width="11" height="32" rx="8" fill="#7edc9a" opacity="0.38"/>
+      <rect x="38" y="48" width="11" height="32" rx="8" fill="#3ea45a" opacity="0.42"/>
+      <path d="M24 48 L28 55 L32 48" fill="#4aaa64"/>
+      <rect x="20" y="66" width="20" height="10" rx="4" fill="#3ea45a" opacity="0.55"/>
+      <!-- Arms raised in joy -->
+      <rect x="-3" y="42" width="16" height="9" rx="4.5" fill="#5ec47a" transform="rotate(-65 -3 42)"/>
+      <rect x="47" y="42" width="16" height="9" rx="4.5" fill="#5ec47a" transform="rotate(65 63 42)"/>
+      <circle cx="2" cy="50" r="7" fill="#fcd5b0"/>
+      <circle cx="58" cy="50" r="7" fill="#fcd5b0"/>
+      <rect x="24" y="40" width="12" height="10" rx="5" fill="#fcd5b0"/>
+      <ellipse cx="30" cy="28" rx="17" ry="18" fill="#fcd5b0"/>
+      <ellipse cx="23" cy="26" rx="6" ry="10" fill="#ffe0c0" opacity="0.28"/>
+      <path d="M13 22 Q15 5 30 6 Q45 5 47 22 Q43 9 30 10 Q17 9 13 22Z" fill="#2c1a0a"/>
+      <ellipse cx="13.5" cy="27" rx="4" ry="7" fill="#2c1a0a"/>
+      <ellipse cx="46.5" cy="27" rx="4" ry="7" fill="#2c1a0a"/>
+      <path d="M19 8 Q28 5 36 9" stroke="#5a3a18" stroke-width="2.5" stroke-linecap="round" fill="none" opacity="0.45"/>
+      <ellipse cx="13" cy="30" rx="4.5" ry="5.5" fill="#fcd5b0"/>
+      <ellipse cx="47" cy="30" rx="4.5" ry="5.5" fill="#fcd5b0"/>
+      <!-- Happy closed arc eyes -->
+      <path d="M16 29 Q22 24 28 29" stroke="#2c1a0a" stroke-width="3" stroke-linecap="round" fill="none"/>
+      <path d="M32 29 Q38 24 44 29" stroke="#2c1a0a" stroke-width="3" stroke-linecap="round" fill="none"/>
+      <!-- Big smile -->
+      <path d="M18 39 Q30 50 42 39" stroke="#c09070" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+      <path d="M21 39 Q30 47 39 39 Q30 43 21 39Z" fill="white" opacity="0.65"/>
+      <path d="M16 22 Q22 18 28 22" stroke="#2c1a0a" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+      <path d="M32 22 Q38 18 44 22" stroke="#2c1a0a" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+      <ellipse cx="14" cy="35" rx="5.5" ry="3.5" fill="#f48080" opacity="0.55"/>
+      <ellipse cx="46" cy="35" rx="5.5" ry="3.5" fill="#f48080" opacity="0.55"/>
+    </svg>
+
+```
+<h1 style="color:#2a7a3a;">Thank You! 💚</h1>
+<p>You have no idea how much this means.<br>You're literally the best. 🌟<br><br>He's already planning a celebration dance. 💃</p>
+<div class="cc" id="confetti"></div>
+```
+
+  </div>
+</div>
+
+<script>
+// ===== PAGE 1 ANIMATION =====
+setTimeout(() => {
+  document.getElementById('door1').classList.add('open');
+  setTimeout(() => {
+    const c = document.getElementById('char1');
+    // Make visible immediately, no opacity fade
+    c.style.opacity = '1';
+    c.classList.add('walk-out');
+    setTimeout(() => document.getElementById('bubble1').classList.add('show'), 750);
+  }, 500);
+}, 700);
+
+// ===== PAGE SWITCHER =====
+function goTo(fromId, toId, cb) {
+  const from = document.getElementById(fromId);
+  from.style.opacity = '0';
+  setTimeout(() => {
+    from.classList.remove('active');
+    from.style.display = 'none';
+    from.style.opacity = '';
+    const to = document.getElementById(toId);
+    to.style.display = 'flex';
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      to.classList.add('active');
+      if (cb) cb();
+    }));
+  }, 450);
+}
+
+// ===== NEXT BUTTON =====
+document.getElementById('nextBtn').addEventListener('click', () => {
+  goTo('page1', 'page2', positionNoBtn);
+});
+
+// ===== NO BUTTON SETUP =====
+const noBtn = document.getElementById('noBtn');
+
+function positionNoBtn() {
+  // Place No button right next to the Yes button
+  setTimeout(() => {
+    const yb = document.getElementById('yesBtn');
+    const r = yb.getBoundingClientRect();
+    noBtn.style.display = 'inline-block';
+    noBtn.style.top  = r.top + 'px';
+    noBtn.style.left = (r.right + 14) + 'px';
+  }, 300);
+}
+
+// Hover / touch → run away
+noBtn.addEventListener('mouseenter', runAway);
+noBtn.addEventListener('touchstart', e => { e.preventDefault(); runAway(); }, { passive: false });
+
+function runAway() {
+  const margin = 16;
+  const bw = noBtn.offsetWidth  || 88;
+  const bh = noBtn.offsetHeight || 48;
+  const maxX = window.innerWidth  - bw - margin;
+  const maxY = window.innerHeight - bh - margin;
+  const cx = parseFloat(noBtn.style.left) || window.innerWidth  / 2;
+  const cy = parseFloat(noBtn.style.top)  || window.innerHeight / 2;
+  let nx, ny, tries = 0;
+  do {
+    nx = Math.random() * maxX + margin;
+    ny = Math.random() * maxY + margin;
+    tries++;
+  } while (tries < 15 && Math.hypot(nx - cx, ny - cy) < 130);
+  noBtn.style.left = nx + 'px';
+  noBtn.style.top  = ny + 'px';
+}
+
+// Click → show toast, hide No btn, snap back to page2 quickly
+noBtn.addEventListener('click', () => {
+  noBtn.style.display = 'none';
+  showToast();
+});
+
+function showToast() {
+  const toast = document.getElementById('toast');
+  toast.classList.add('show');
+  setTimeout(() => {
+    toast.classList.remove('show');
+    // Already on page 2 — just bring No button back near Yes button
+    setTimeout(positionNoBtn, 300);
+  }, 2000);
+}
+
+// ===== YES =====
+document.getElementById('yesBtn').addEventListener('click', () => {
+  noBtn.style.display = 'none';
+  goTo('page2', 'page3', () => setTimeout(launchConfetti, 400));
+});
+
+// ===== CONFETTI =====
+function launchConfetti() {
+  const c = document.getElementById('confetti');
+  const colors = ['#6bc97e','#4a90d9','#f5c97a','#f08080','#b19cd9','#fff','#ffcc44'];
+  for (let i = 0; i < 72; i++) {
+    const p = document.createElement('div');
+    p.className = 'cp';
+    const s = 7 + Math.random() * 12;
+    p.style.cssText = `left:${Math.random()*100}vw;background:${colors[Math.floor(Math.random()*colors.length)]};animation-delay:${Math.random()*1.4}s;animation-duration:${1.2+Math.random()}s;width:${s}px;height:${s}px;border-radius:${Math.random()>.5?'50%':'3px'};`;
+    c.appendChild(p);
+  }
+  setTimeout(() => c.innerHTML = '', 3500);
+}
+</script>
+
+</body>
+</html>
